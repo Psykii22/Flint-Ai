@@ -34,21 +34,25 @@ RUN chmod +x /app/backend/coral/coral
 # Dynamically link the configuration to /app paths
 RUN sed -i "s|file:///d:/Hackathon/Finguard-v1|file:///app|g" /app/backend/coral/supabase-source.yaml
 
-# Create directory structures so Coral source validation doesn't fail on missing folders
+# Create directory structures AND empty JSONL files so Coral source validation passes
 RUN mkdir -p /app/backend/coral/data/pod_metrics \
              /app/backend/coral/data/billing_events \
              /app/backend/coral/data/deployments \
              /app/backend/coral/data/incidents \
              /app/backend/coral/data/worker_events \
-             /app/backend/coral/data/firewall_events
-
-RUN /app/backend/coral/coral source add --file /app/backend/coral/supabase-source.yaml
+             /app/backend/coral/data/firewall_events \
+    && touch /app/backend/coral/data/pod_metrics/pod_metrics.jsonl \
+    && touch /app/backend/coral/data/billing_events/billing_events.jsonl \
+    && touch /app/backend/coral/data/deployments/deployments.jsonl \
+    && touch /app/backend/coral/data/incidents/incidents.jsonl \
+    && touch /app/backend/coral/data/worker_events/worker_events.jsonl \
+    && touch /app/backend/coral/data/firewall_events/firewall_events.jsonl
 
 # Expose port 3000
 EXPOSE 3000
 ENV PORT=3000
 ENV NODE_ENV=production
 
-# Start the Express server from the landing_page dist
+# Register Coral source at startup (not build time) then start the server
 WORKDIR /app/landing_page
-CMD ["node", "dist/server.cjs"]
+CMD /app/backend/coral/coral source add --file /app/backend/coral/supabase-source.yaml 2>/dev/null; node dist/server.cjs
