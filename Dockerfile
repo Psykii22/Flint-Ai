@@ -25,7 +25,10 @@ RUN npm run build
 # Download and set up the Coral SQL engine
 RUN mkdir -p /app/backend/coral
 RUN curl -fsSL https://withcoral.com/install.sh | sh
-RUN cp /root/.local/bin/coral /app/backend/coral/coral
+# Find and copy the coral binary from wherever the installer put it
+RUN CORAL_BIN=$(find /root /opt -name "coral" -type f 2>/dev/null | head -n 1) && \
+    if [ -n "$CORAL_BIN" ]; then cp "$CORAL_BIN" /app/backend/coral/coral; \
+    else echo "Error: Coral binary not found!" && exit 1; fi
 RUN chmod +x /app/backend/coral/coral
 
 # Dynamically link the configuration to /app paths
@@ -46,5 +49,6 @@ EXPOSE 3000
 ENV PORT=3000
 ENV NODE_ENV=production
 
-# Start the Express server
+# Start the Express server from the landing_page dist
+WORKDIR /app/landing_page
 CMD ["node", "dist/server.cjs"]

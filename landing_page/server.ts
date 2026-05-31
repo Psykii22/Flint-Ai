@@ -257,7 +257,7 @@ app.get("/api/v1/k8s/logs", (req, res) => {
     return res.json({ success: true, logs: (stdout + "\n" + stderr).trim(), source: "kubectl" });
   });
 });
-const PORT = 3000;
+const PORT = parseInt(process.env.PORT || "3000", 10);
 
 // Lazy initialization of Gemini client as per rules
 let aiClient: GoogleGenAI | null = null;
@@ -472,7 +472,8 @@ app.get("/api/simulation-state", (req, res) => {
 
 const queryCoral = (sql: string): Promise<any[]> => {
   return new Promise((resolve) => {
-    const coralPath = path.join(process.cwd(), "../backend/coral/coral.exe");
+    const coralBin = process.platform === "win32" ? "coral.exe" : "coral";
+    const coralPath = path.join(process.cwd(), "../backend/coral", coralBin);
     const coralCwd = path.join(process.cwd(), "../backend/coral");
     const cleanSql = sql.replace(/--.*$/gm, '').trim();
 
@@ -668,7 +669,8 @@ app.post("/api/execute-query", async (req, res) => {
   }
 
   // Execute using the local Coral binary with execFile to avoid Windows shell newline issues
-  const coralPath = path.join(process.cwd(), "../backend/coral/coral.exe");
+  const coralBin = process.platform === "win32" ? "coral.exe" : "coral";
+  const coralPath = path.join(process.cwd(), "../backend/coral", coralBin);
   const coralCwd = path.join(process.cwd(), "../backend/coral");
 
   // Strip -- comments to prevent Coral CLI from throwing "No SQL statements"

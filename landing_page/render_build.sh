@@ -23,8 +23,13 @@ elif [ -f "$HOME/.coral/bin/coral" ]; then
 elif [ -f "$HOME/.local/bin/coral" ]; then
   cp "$HOME/.local/bin/coral" ../backend/coral/coral
 else
-  echo "Error: Coral binary not found!"
-  exit 1
+  CORAL_BIN=$(find /opt /root "$HOME" -name "coral" -type f 2>/dev/null | head -n 1)
+  if [ -n "$CORAL_BIN" ]; then
+    cp "$CORAL_BIN" ../backend/coral/coral
+  else
+    echo "Error: Coral binary not found!"
+    exit 1
+  fi
 fi
 chmod +x ../backend/coral/coral
 
