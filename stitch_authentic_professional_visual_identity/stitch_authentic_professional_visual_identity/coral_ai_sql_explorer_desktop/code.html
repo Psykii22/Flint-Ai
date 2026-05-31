@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Coral AI - SQL Explorer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Geist:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#343535",
+                      "on-tertiary-fixed-variant": "#474646",
+                      "on-tertiary-fixed": "#1c1b1b",
+                      "inverse-on-surface": "#2f3131",
+                      "surface-container-high": "#292a2a",
+                      "surface-bright": "#383939",
+                      "on-tertiary-container": "#2a2a29",
+                      "tertiary-fixed-dim": "#c8c6c5",
+                      "surface-tint": "#adc6ff",
+                      "on-secondary": "#432c00",
+                      "inverse-primary": "#005bc1",
+                      "secondary-container": "#feb300",
+                      "on-primary": "#002e69",
+                      "tertiary-fixed": "#e5e2e1",
+                      "on-primary-container": "#00285c",
+                      "on-secondary-fixed-variant": "#604100",
+                      "primary-fixed": "#d8e2ff",
+                      "outline-variant": "#414755",
+                      "primary": "#adc6ff",
+                      "on-surface": "#e3e2e2",
+                      "on-error-container": "#ffdad6",
+                      "primary-fixed-dim": "#adc6ff",
+                      "on-primary-fixed": "#001a41",
+                      "surface-container-low": "#1a1c1c",
+                      "on-tertiary": "#313030",
+                      "on-error": "#690005",
+                      "on-surface-variant": "#c1c6d7",
+                      "on-secondary-fixed": "#281900",
+                      "tertiary-container": "#929090",
+                      "on-primary-fixed-variant": "#004493",
+                      "error-container": "#93000a",
+                      "surface-container-lowest": "#0d0e0f",
+                      "secondary-fixed-dim": "#ffba38",
+                      "secondary": "#ffd799",
+                      "secondary-fixed": "#ffdeac",
+                      "surface": "#121414",
+                      "background": "#121414",
+                      "surface-container": "#1e2020",
+                      "surface-dim": "#121414",
+                      "on-secondary-container": "#6a4800",
+                      "inverse-surface": "#e3e2e2",
+                      "error": "#ffb4ab",
+                      "primary-container": "#4b8eff",
+                      "outline": "#8b90a0",
+                      "surface-variant": "#343535",
+                      "on-background": "#e3e2e2",
+                      "tertiary": "#c8c6c5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-desktop": "24px",
+                      "unit": "4px",
+                      "margin-mobile": "16px",
+                      "sidebar-width": "260px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "code-sm": ["JetBrains Mono"],
+                      "label-caps": ["JetBrains Mono"],
+                      "headline-lg": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "body-md": ["Geist"]
+              },
+              "fontSize": {
+                      "code-sm": ["12px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                      "label-caps": ["10px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                      "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                      "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                      "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Hide scrollbar for a cleaner IDE look */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #343535; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #414755; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-screen w-screen overflow-hidden font-body-md select-none">
+<!-- Shared Component: SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low dark:bg-surface-container-low border-r border-outline-variant dark:border-outline-variant flex flex-col py-4 z-20">
+<!-- Header -->
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded-DEFAULT bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface dark:text-on-surface tracking-tight leading-none">Coral AI</h1>
+<p class="font-code-sm text-code-sm text-on-surface-variant mt-1">v2.4.0-stable</p>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex flex-col gap-1 mb-8">
+<!-- Inactive Tab -->
+<div class="flex items-center gap-3 px-6 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors duration-150 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-[18px]">lan</span>
+<span class="font-code-sm text-code-sm">Nodes</span>
+</div>
+<!-- Inactive Tab -->
+<div class="flex items-center gap-3 px-6 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors duration-150 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-code-sm text-code-sm">Shield</span>
+</div>
+<!-- Active Tab (Investigate matches Querying intent) -->
+<div class="flex items-center gap-3 px-6 py-2 bg-surface-container-highest dark:bg-surface-container-highest text-primary dark:text-primary border-l-2 border-primary cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">search_insights</span>
+<span class="font-code-sm text-code-sm">Investigate</span>
+</div>
+<!-- Inactive Tab -->
+<div class="flex items-center gap-3 px-6 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors duration-150 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span class="font-code-sm text-code-sm">Vault</span>
+</div>
+</nav>
+<!-- Schema Explorer (Contextual Addition) -->
+<div class="flex-1 overflow-y-auto px-4">
+<h2 class="font-label-caps text-label-caps text-tertiary uppercase tracking-widest mb-3 px-2">Schema Explorer</h2>
+<div class="flex flex-col gap-1 font-code-sm text-code-sm">
+<!-- Database -->
+<div class="flex items-center gap-2 px-2 py-1 text-on-surface cursor-pointer hover:bg-surface-container-high rounded-DEFAULT">
+<span class="material-symbols-outlined text-[16px] text-tertiary">database</span>
+<span>coral_prod_telemetry</span>
+</div>
+<!-- Table Tree -->
+<div class="pl-6 flex flex-col gap-1 border-l border-outline-variant ml-[11px] mt-1">
+<div class="flex items-center gap-2 px-2 py-1 text-on-surface-variant hover:text-on-surface cursor-pointer">
+<span class="material-symbols-outlined text-[14px]">table</span>
+<span>api_requests</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 px-2 py-1 text-primary cursor-pointer bg-surface-container-highest rounded-DEFAULT ml-[-20px] pl-[20px]">
+<span class="material-symbols-outlined text-[14px] text-primary">table</span>
+<span>deployment_retries</span>
+</div>
+<!-- Columns -->
+<div class="pl-5 flex flex-col gap-1 py-1 text-[11px] text-tertiary">
+<div class="flex items-center gap-2 hover:text-on-surface cursor-pointer"><span class="material-symbols-outlined text-[12px]">key</span>id (uuid)</div>
+<div class="flex items-center gap-2 hover:text-on-surface cursor-pointer"><span class="material-symbols-outlined text-[12px]">schedule</span>timestamp (ts)</div>
+<div class="flex items-center gap-2 hover:text-on-surface cursor-pointer"><span class="material-symbols-outlined text-[12px]">tag</span>service (varchar)</div>
+<div class="flex items-center gap-2 hover:text-on-surface cursor-pointer"><span class="material-symbols-outlined text-[12px]">info</span>status (varchar)</div>
+<div class="flex items-center gap-2 hover:text-on-surface cursor-pointer"><span class="material-symbols-outlined text-[12px]">numbers</span>retry_count (int)</div>
+</div>
+</div>
+<div class="flex items-center gap-2 px-2 py-1 text-on-surface-variant hover:text-on-surface cursor-pointer">
+<span class="material-symbols-outlined text-[14px]">table</span>
+<span>node_health</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Shared Component: TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-12 bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant flex items-center justify-between px-margin-desktop z-10 transition-all duration-200">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">terminal</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant dark:text-on-surface-variant">coral-term ~ /workspace/investigation</span>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search (Right aligned as per JSON) -->
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-2 text-on-surface-variant text-[16px]">search</span>
+<input class="bg-surface-container-low border border-outline-variant text-on-surface text-code-sm font-code-sm rounded-DEFAULT py-1 pl-8 pr-3 w-48 focus:outline-none focus:border-primary placeholder:text-on-surface-variant/50 transition-colors" placeholder="Filter buffer..." type="text"/>
+</div>
+<!-- Trailing Icons -->
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface dark:hover:text-on-surface hover:bg-surface-container-high rounded-DEFAULT transition-all duration-200">
+<span class="material-symbols-outlined text-[18px]">sensors</span>
+</button>
+<button class="p-1.5 text-primary dark:text-primary hover:bg-surface-container-high rounded-DEFAULT transition-all duration-200 bg-surface-container-highest">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</button>
+<button class="p-1.5 text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface dark:hover:text-on-surface hover:bg-surface-container-high rounded-DEFAULT transition-all duration-200">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Workspace Area -->
+<main class="absolute top-12 bottom-6 right-0 w-[calc(100%-260px)] flex flex-col bg-surface-container-lowest z-0">
+<!-- Top Pane: SQL Editor -->
+<section class="flex-1 flex flex-col min-h-[300px] border-b border-outline-variant">
+<!-- Editor Tab Bar -->
+<div class="h-8 flex bg-surface-container shrink-0 border-b border-outline-variant">
+<div class="flex items-center gap-2 px-4 bg-surface-container-lowest border-r border-outline-variant border-t-2 border-t-primary cursor-pointer">
+<span class="material-symbols-outlined text-primary text-[14px]">database</span>
+<span class="font-code-sm text-code-sm text-primary">find_retry_anomalies.sql</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-on-surface text-[14px] ml-2">close</span>
+</div>
+<div class="flex items-center gap-2 px-4 text-on-surface-variant hover:bg-surface-container-high cursor-pointer border-r border-outline-variant">
+<span class="font-code-sm text-code-sm">new_query.sql</span>
+</div>
+</div>
+<!-- Editor Content -->
+<div class="flex-1 flex overflow-hidden relative">
+<!-- Line Numbers -->
+<div class="w-12 bg-surface-container-lowest border-r border-outline-variant flex flex-col items-end py-4 pr-2 font-code-sm text-code-sm text-outline select-none opacity-60">
+<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span>
+</div>
+<!-- Code Area -->
+<div class="flex-1 p-4 overflow-auto font-code-sm text-code-sm text-on-surface leading-relaxed relative whitespace-pre">
+<span class="text-tertiary">-- Investigating cascading deployment retries on us-east-1</span>
+<span class="text-error font-bold">SELECT</span> 
+    timestamp,
+    service,
+    status,
+    retry_count,
+    metadata<span class="text-outline">-&gt;&gt;</span><span class="text-primary">'error_code'</span> <span class="text-error font-bold">AS</span> error_reason
+<span class="text-error font-bold">FROM</span> 
+    coral_prod_telemetry.deployment_retries
+<span class="text-error font-bold">WHERE</span> 
+    region <span class="text-outline">=</span> <span class="text-primary">'us-east-1'</span>
+<span class="text-error font-bold">AND</span> timestamp <span class="text-outline">&gt;=</span> <span class="text-error font-bold">NOW</span>() <span class="text-outline">-</span> <span class="text-error font-bold">INTERVAL</span> <span class="text-primary">'4 hours'</span>
+<span class="text-error font-bold">AND</span> retry_count <span class="text-outline">&gt;</span> <span class="text-secondary">3</span>
+<span class="text-error font-bold">ORDER BY</span> 
+    retry_count <span class="text-error font-bold">DESC</span>, 
+    timestamp <span class="text-error font-bold">DESC</span>
+<span class="text-error font-bold">LIMIT</span> <span class="text-secondary">100</span>;
+
+<!-- Fake Cursor -->
+<span class="absolute inline-block w-[8px] h-[16px] bg-primary/70 animate-pulse mix-blend-screen ml-1 mt-1"></span></div>
+<!-- Run Button Overlay -->
+<div class="absolute bottom-4 right-6">
+<button class="bg-inverse-primary text-on-primary-container px-4 py-1.5 rounded-DEFAULT font-code-sm text-code-sm font-bold flex items-center gap-2 hover:bg-primary transition-colors shadow-none border border-transparent">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        Execute (⌘↵)
+                    </button>
+</div>
+</div>
+</section>
+<!-- Bottom Pane: Query Results -->
+<section class="h-[250px] flex flex-col bg-surface shrink-0">
+<!-- Results Toolbar -->
+<div class="h-8 flex items-center justify-between px-4 bg-surface-container shrink-0 border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<span class="font-code-sm text-code-sm text-on-surface font-bold">Query Results</span>
+<span class="font-code-sm text-[11px] text-tertiary px-2 py-0.5 bg-surface-container-low rounded-DEFAULT border border-outline-variant">4 rows returned in 142ms</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">download</span></button>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">filter_list</span></button>
+</div>
+</div>
+<!-- Data Grid -->
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse font-code-sm text-code-sm whitespace-nowrap">
+<thead class="sticky top-0 bg-surface z-10 border-b border-outline-variant">
+<tr>
+<th class="py-2 px-4 font-normal text-on-surface-variant w-10 text-center">#</th>
+<th class="py-2 px-4 font-normal text-on-surface-variant">timestamp</th>
+<th class="py-2 px-4 font-normal text-on-surface-variant">service</th>
+<th class="py-2 px-4 font-normal text-on-surface-variant">status</th>
+<th class="py-2 px-4 font-normal text-on-surface-variant text-right">retry_count</th>
+<th class="py-2 px-4 font-normal text-on-surface-variant">error_reason</th>
+</tr>
+</thead>
+<tbody class="text-on-surface">
+<!-- Normal Row -->
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container-low transition-colors">
+<td class="py-2 px-4 text-tertiary text-center border-l-2 border-transparent">1</td>
+<td class="py-2 px-4 text-secondary">2024-05-20 14:22:10 UTC</td>
+<td class="py-2 px-4">auth-gateway-svc</td>
+<td class="py-2 px-4"><span class="text-error">TIMEOUT</span></td>
+<td class="py-2 px-4 text-right">4</td>
+<td class="py-2 px-4 text-on-surface-variant">ERR_CONN_DROP</td>
+</tr>
+<!-- Anomalous Row (Highlighted with Alert Amber border) -->
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container-low transition-colors bg-surface-container-low/50">
+<td class="py-2 px-4 text-tertiary text-center border-l-2 border-secondary-container">2</td>
+<td class="py-2 px-4 text-secondary">2024-05-20 14:21:45 UTC</td>
+<td class="py-2 px-4 font-bold text-primary">core-ledger-engine</td>
+<td class="py-2 px-4"><span class="text-error font-bold">FATAL_CRASH</span></td>
+<td class="py-2 px-4 text-right text-secondary-container font-bold">12</td>
+<td class="py-2 px-4 text-on-surface-variant">OOM_KILLED_HEURISTIC</td>
+</tr>
+<!-- Normal Row -->
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container-low transition-colors">
+<td class="py-2 px-4 text-tertiary text-center border-l-2 border-transparent">3</td>
+<td class="py-2 px-4 text-secondary">2024-05-20 14:15:02 UTC</td>
+<td class="py-2 px-4">user-preference-api</td>
+<td class="py-2 px-4"><span class="text-error">TIMEOUT</span></td>
+<td class="py-2 px-4 text-right">5</td>
+<td class="py-2 px-4 text-on-surface-variant">DB_LOCK_WAIT</td>
+</tr>
+<!-- Normal Row -->
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container-low transition-colors">
+<td class="py-2 px-4 text-tertiary text-center border-l-2 border-transparent">4</td>
+<td class="py-2 px-4 text-secondary">2024-05-20 13:59:11 UTC</td>
+<td class="py-2 px-4">notification-worker</td>
+<td class="py-2 px-4"><span class="text-error">THROTTLED</span></td>
+<td class="py-2 px-4 text-right">4</td>
+<td class="py-2 px-4 text-on-surface-variant">API_RATE_LIMIT</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- Shared Component: Footer -->
+<footer class="fixed bottom-0 right-0 w-[calc(100%-260px)] h-6 bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant dark:border-outline-variant flex items-center justify-between px-4 z-10 transition-opacity duration-200">
+<!-- Status Indicator -->
+<div class="flex items-center gap-2">
+<!-- Pulsing AI Investigator Status Dot -->
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-code-sm text-code-sm text-secondary dark:text-secondary">System Ready | Latency: 12ms | Cluster: US-EAST-1</span>
+</div>
+<!-- Links -->
+<div class="flex items-center gap-4">
+<a class="font-code-sm text-code-sm text-on-tertiary-fixed-variant dark:text-on-tertiary-fixed-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Documentation</a>
+<a class="font-code-sm text-code-sm text-on-tertiary-fixed-variant dark:text-on-tertiary-fixed-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">API Status</a>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Coral AI - FinOps Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#343535",
+                        "on-tertiary-fixed-variant": "#474646",
+                        "on-tertiary-fixed": "#1c1b1b",
+                        "inverse-on-surface": "#2f3131",
+                        "surface-container-high": "#292a2a",
+                        "surface-bright": "#383939",
+                        "on-tertiary-container": "#2a2a29",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "surface-tint": "#adc6ff",
+                        "on-secondary": "#432c00",
+                        "inverse-primary": "#005bc1",
+                        "secondary-container": "#feb300",
+                        "on-primary": "#002e69",
+                        "tertiary-fixed": "#e5e2e1",
+                        "on-primary-container": "#00285c",
+                        "on-secondary-fixed-variant": "#604100",
+                        "primary-fixed": "#d8e2ff",
+                        "outline-variant": "#414755",
+                        "primary": "#adc6ff",
+                        "on-surface": "#e3e2e2",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-primary-fixed": "#001a41",
+                        "surface-container-low": "#1a1c1c",
+                        "on-tertiary": "#313030",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c1c6d7",
+                        "on-secondary-fixed": "#281900",
+                        "tertiary-container": "#929090",
+                        "on-primary-fixed-variant": "#004493",
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#0d0e0f",
+                        "secondary-fixed-dim": "#ffba38",
+                        "secondary": "#ffd799",
+                        "secondary-fixed": "#ffdeac",
+                        "surface": "#121414",
+                        "background": "#121414",
+                        "surface-container": "#1e2020",
+                        "surface-dim": "#121414",
+                        "on-secondary-container": "#6a4800",
+                        "inverse-surface": "#e3e2e2",
+                        "error": "#ffb4ab",
+                        "primary-container": "#4b8eff",
+                        "outline": "#8b90a0",
+                        "surface-variant": "#343535",
+                        "on-background": "#e3e2e2",
+                        "tertiary": "#c8c6c5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "24px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "sidebar-width": "260px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "code-sm": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "body-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "code-sm": ["12px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["10px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md h-screen overflow-hidden selection:bg-primary-container selection:text-on-primary-container flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low border-r border-outline-variant flex flex-col py-4 z-20">
+<!-- Header -->
+<div class="px-6 mb-8 flex flex-col gap-1">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary fill">hub</span>
+                Coral AI
+            </h1>
+<span class="font-code-sm text-code-sm text-on-surface-variant">v2.4.0-stable</span>
+</div>
+<!-- Navigation Tabs -->
+<div class="flex flex-col gap-1 px-3">
+<!-- Tab: Nodes (Inactive) -->
+<a class="group flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high transition-colors duration-150 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined text-[18px]">lan</span>
+<span class="font-body-md text-body-md">Nodes</span>
+</a>
+<!-- Tab: Shield (Inactive) -->
+<a class="group flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high transition-colors duration-150 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-body-md text-body-md">Shield</span>
+</a>
+<!-- Tab: Investigate (Active) -->
+<a class="group flex items-center gap-3 px-3 py-2 rounded bg-surface-container-highest text-primary border-l-2 border-primary cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined text-[18px] fill">search_insights</span>
+<span class="font-body-md text-body-md font-bold">Investigate</span>
+</a>
+<!-- Tab: Vault (Inactive) -->
+<a class="group flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high transition-colors duration-150 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span class="font-body-md text-body-md">Vault</span>
+</a>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-12 bg-surface border-b border-outline-variant flex items-center justify-between px-margin-desktop z-10">
+<div class="font-code-sm text-code-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">folder_open</span>
+            coral-term ~ /workspace/investigation
+        </div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-on-surface transition-all duration-200">
+<span class="material-symbols-outlined text-[18px]">sensors</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface transition-all duration-200">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface transition-all duration-200">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Content Workbench -->
+<main class="ml-[260px] mt-12 mb-6 w-[calc(100%-260px)] h-[calc(100vh-72px)] overflow-y-auto p-margin-desktop flex flex-col gap-6">
+<!-- Header Section -->
+<div class="flex justify-between items-end border-b border-outline-variant pb-4">
+<div class="flex flex-col gap-1">
+<h2 class="font-headline-md text-headline-md text-on-surface">FinOps Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time resource utilization and anomaly detection.</p>
+</div>
+<button class="h-8 px-4 bg-inverse-primary text-on-primary font-code-sm text-code-sm rounded hover:bg-primary-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">refresh</span>
+                Sync Data
+            </button>
+</div>
+<!-- Anomaly Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1: Critical Anomaly -->
+<div class="bg-surface border border-outline-variant border-l-[3px] border-l-error rounded flex flex-col p-4 relative group hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-[20px]">database</span>
+<span class="font-code-sm text-code-sm text-on-surface font-bold uppercase tracking-wide">RDS Read Replicas</span>
+</div>
+<span class="font-label-caps text-label-caps bg-error-container text-on-error-container px-2 py-0.5 rounded border border-error/20 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">trending_up</span>
+                        +240%
+                    </span>
+</div>
+<!-- Mini Bar Chart -->
+<div class="h-12 w-full flex items-end gap-1 mb-4 opacity-80">
+<div class="w-full bg-outline-variant h-[20%]"></div>
+<div class="w-full bg-outline-variant h-[22%]"></div>
+<div class="w-full bg-outline-variant h-[18%]"></div>
+<div class="w-full bg-outline-variant h-[25%]"></div>
+<div class="w-full bg-outline-variant h-[30%]"></div>
+<div class="w-full bg-error h-[65%]"></div>
+<div class="w-full bg-error h-[80%]"></div>
+<div class="w-full bg-error h-[100%] relative">
+<div class="absolute -top-1 left-1/2 w-1 h-1 bg-error rounded-full -translate-x-1/2 animate-ping"></div>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<button class="w-full py-1.5 border border-outline-variant text-on-surface font-code-sm text-code-sm rounded hover:bg-surface-variant hover:border-outline transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">analytics</span>
+                        Analyze
+                    </button>
+</div>
+</div>
+<!-- Card 2: Elevated Anomaly -->
+<div class="bg-surface border border-outline-variant border-l-[3px] border-l-secondary-container rounded flex flex-col p-4 relative group hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-container text-[20px]">storage</span>
+<span class="font-code-sm text-code-sm text-on-surface font-bold uppercase tracking-wide">S3 Standard Storage</span>
+</div>
+<span class="font-label-caps text-label-caps bg-surface-variant text-secondary-container px-2 py-0.5 rounded border border-secondary-container/30 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">trending_up</span>
+                        +45%
+                    </span>
+</div>
+<!-- Mini Bar Chart -->
+<div class="h-12 w-full flex items-end gap-1 mb-4 opacity-80">
+<div class="w-full bg-outline-variant h-[40%]"></div>
+<div class="w-full bg-outline-variant h-[35%]"></div>
+<div class="w-full bg-outline-variant h-[42%]"></div>
+<div class="w-full bg-outline-variant h-[45%]"></div>
+<div class="w-full bg-outline-variant h-[48%]"></div>
+<div class="w-full bg-secondary-container h-[60%]"></div>
+<div class="w-full bg-secondary-container h-[75%]"></div>
+<div class="w-full bg-secondary-container h-[85%]"></div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<button class="w-full py-1.5 border border-outline-variant text-on-surface font-code-sm text-code-sm rounded hover:bg-surface-variant hover:border-outline transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">analytics</span>
+                        Analyze
+                    </button>
+</div>
+</div>
+<!-- Card 3: Utilization Drop -->
+<div class="bg-surface border border-outline-variant border-l-[3px] border-l-primary rounded flex flex-col p-4 relative group hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">memory</span>
+<span class="font-code-sm text-code-sm text-on-surface font-bold uppercase tracking-wide">EC2 Spot Instances</span>
+</div>
+<span class="font-label-caps text-label-caps bg-surface-variant text-primary px-2 py-0.5 rounded border border-primary/30 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">trending_down</span>
+                        -15%
+                    </span>
+</div>
+<!-- Mini Bar Chart -->
+<div class="h-12 w-full flex items-end gap-1 mb-4 opacity-80">
+<div class="w-full bg-outline-variant h-[90%]"></div>
+<div class="w-full bg-outline-variant h-[85%]"></div>
+<div class="w-full bg-outline-variant h-[88%]"></div>
+<div class="w-full bg-outline-variant h-[70%]"></div>
+<div class="w-full bg-outline-variant h-[65%]"></div>
+<div class="w-full bg-primary h-[50%]"></div>
+<div class="w-full bg-primary h-[45%]"></div>
+<div class="w-full bg-primary h-[40%]"></div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<button class="w-full py-1.5 border border-outline-variant text-on-surface font-code-sm text-code-sm rounded hover:bg-surface-variant hover:border-outline transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">analytics</span>
+                        Analyze
+                    </button>
+</div>
+</div>
+</div>
+<!-- AI Investigator Pane -->
+<div class="flex-1 bg-surface border border-outline-variant rounded flex flex-col overflow-hidden min-h-[300px]">
+<!-- Pane Header -->
+<div class="px-4 py-2 bg-surface-container border-b border-outline-variant flex items-center gap-3">
+<div class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-error"></span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface font-bold">AI Investigator Status: Anomalies Found</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant ml-auto flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">timer</span>
+                    0.4s
+                </span>
+</div>
+<!-- SQL Terminal Canvas -->
+<div class="flex-1 bg-surface-container-lowest p-4 overflow-x-auto relative group">
+<pre class="font-code-sm text-code-sm leading-relaxed text-on-surface-variant"><code class="language-sql"><span class="text-outline-variant">-- AI generated root-cause query for RDS cluster cost spike</span>
+<span class="text-secondary-container">SELECT</span> 
+    cluster_identifier,
+    <span class="text-secondary-container">SUM</span>(storage_bytes) <span class="text-secondary-container">AS</span> total_storage,
+    <span class="text-secondary-container">COUNT</span>(replica_identifier) <span class="text-secondary-container">AS</span> active_replicas,
+    cost_usd
+<span class="text-secondary-container">FROM</span> 
+    aws_rds_cluster_metrics
+<span class="text-secondary-container">WHERE</span> 
+    timestamp <span class="text-secondary-container">&gt;=</span> <span class="text-primary">'2023-10-24T00:00:00Z'</span>
+    <span class="text-secondary-container">AND</span> cost_anomaly_score <span class="text-secondary-container">&gt;</span> <span class="text-primary">0.85</span>
+<span class="text-secondary-container">GROUP BY</span> 
+    cluster_identifier
+<span class="text-secondary-container">ORDER BY</span> 
+    cost_usd <span class="text-secondary-container">DESC</span><span class="inline-block w-2 h-4 bg-primary align-middle ml-1 animate-pulse"></span></code></pre>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 right-0 w-[calc(100%-260px)] h-6 bg-surface-container-lowest border-t border-outline-variant flex items-center justify-between px-4 z-10">
+<span class="font-code-sm text-code-sm text-on-tertiary-fixed-variant">System Ready | Latency: 12ms | Cluster: US-EAST-1</span>
+<div class="flex gap-4">
+<a class="font-code-sm text-code-sm text-on-tertiary-fixed-variant hover:text-primary transition-opacity duration-200" href="#">Documentation</a>
+<a class="font-code-sm text-code-sm text-on-tertiary-fixed-variant hover:text-primary transition-opacity duration-200" href="#">API Status</a>
+</div>
+</footer>
+</body></html>
