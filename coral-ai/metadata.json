@@ -1,6 +1,0 @@
-{
-  "name": "Coral AI",
-  "description": "A high-performance FinOps overview and SQL telemetry explorer featuring real-time resource utilization, log analysis, and AI-powered anomaly query generation.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
