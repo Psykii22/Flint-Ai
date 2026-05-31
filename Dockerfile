@@ -30,6 +30,15 @@ RUN chmod +x /app/backend/coral/coral
 
 # Dynamically link the configuration to /app paths
 RUN sed -i "s|file:///d:/Hackathon/Finguard-v1|file:///app|g" /app/backend/coral/supabase-source.yaml
+
+# Create directory structures so Coral source validation doesn't fail on missing folders
+RUN mkdir -p /app/backend/coral/data/pod_metrics \
+             /app/backend/coral/data/billing_events \
+             /app/backend/coral/data/deployments \
+             /app/backend/coral/data/incidents \
+             /app/backend/coral/data/worker_events \
+             /app/backend/coral/data/firewall_events
+
 RUN /app/backend/coral/coral source add --file /app/backend/coral/supabase-source.yaml
 
 # Expose port 3000
