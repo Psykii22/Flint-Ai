@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: flint-ai
+    env: node
+    plan: free
+    rootDir: landing_page
+    buildCommand: bash render_build.sh
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
